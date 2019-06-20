@@ -69,11 +69,76 @@ function searchByName(people){
   return foundPerson;
 }
 
+function serachByTrait(people){
+	var searchTrait = promptFor("Enter the trait that you would like to look for: 'height', 'weight', 'eye color', 'occupation', or 'gender'.\n Type the option you want or 'quit'", chars).toLowerCase();
+		switch(searchTrait){
+		case "height":
+		searchTrait = "height";
+		var trait = promptFor("What is the person's height?", chars); 
+		break;
+		case "weight":
+		searchTrait = "weight"
+		var trait = promptFor("What is the person's weight", chars); 
+		break;
+		case "eyecolor":
+		case "eye color":
+		case "color":
+		searchTrait = "eyecolor"
+		var trait = promptFor("What is the person's eye color?", chars);
+		break;
+		case "occupation":
+		case "Job":
+		searchTrait = "occupation"
+		var trait = promptFor("What is the person's occupation?", chars); 
+		break;
+		case "gender":
+		case "Sex":
+		searchTrait = "gender"
+		var trait = promptFor("What is the person's gender?", maleFemale); 
+		break;
+		case "quit":
+			return; 
+		default:
+		return searchTrait(people);
+
+		}
+	var candidates = people.filter(function(people){
+		if (traitValue === person[searchTrait]){
+			return true;
+		}
+		else{
+			return false;
+		}
+	});
+	if (candidates.length == 1){
+		let foundPerson = candidates[0]; 
+		mainMenu(foundPerson, people); 
+	}
+	else if (candidates.length > 1){
+		let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo); 
+		switch(keepGoing){
+			case "yes":
+				candidates = searchByTrait(candidates); 
+				return candidates; 
+				break; 
+			case "no":
+				var foundPerson = searchByName(people); 
+				mainMenu(foundPerson, people);
+				break; 
+		}
+	}
+	else{
+		alert("Could not find candidate."); 
+		return app(people); 
+	}
+}
+
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
+  return peopleToDisplay; 
 }
 
 function displayPerson(person){
