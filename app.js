@@ -4,6 +4,8 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
+  findDescendants(people[17]);
+  console.log(allDescendants);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
@@ -99,4 +101,46 @@ function yesNo(input){
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
+}
+
+function findParents(data) {
+  // find all people with parents
+  let test = data.filter(val => {
+    if(val.parents.length > 0) {
+      return true;
+    }
+  }); 
+}
+let allDescendants = [];
+let parentsArray = [];
+
+function findDescendants(person) {
+  // If arr is empty, return
+  if (person.parents.length === 0 && allDescendants.length === 0) {
+    console.log("ORPHAN AF");
+  } else if (person.parents.length === 0) {
+      return allDescendants;
+  }
+
+  // Convert the elements from IDs to Objects
+  // [{ person }, { person }]
+  parentsArray = person.parents.map(el => findFromID(el));
+
+  // Push each object into the allDescendants array
+  // allDescendants = [{ person }, { person }]
+  for (let i = 0; i < parentsArray.length; i++) {
+    allDescendants.push(parentsArray[i]);
+  }
+
+  // For each person, run this same function on them
+  parentsArray.forEach(val => findDescendants(val));
+  // Return the allDescendants array
+}
+
+function findFromID(id) {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].id === id) {
+      return data[i];
+    }
+  }
 }
