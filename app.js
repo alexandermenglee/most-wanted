@@ -113,7 +113,7 @@ function serachByTrait(people){
 		mainMenu(foundPerson, people); 
 	}
 	else if (candidates.length > 1){
-		let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo); 
+		let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\ Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo); 
 		switch(keepGoing){
 			case "yes":
 				candidates = searchByTrait(candidates); 
@@ -121,7 +121,7 @@ function serachByTrait(people){
 				break; 
 			case "no":
 				var foundPerson = searchByName(people); 
-				mainMenu(foundPerson, people);
+				mainMenu(foundPerson, people);	
 				break; 
 		}
 	}
@@ -137,6 +137,13 @@ function displayPeople(people){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
   return peopleToDisplay; 
+}
+
+function grabFullNames(people){
+	let peopleToDisplay = people.map(function(person){
+		return person.firstName + " " + person.lastName; 
+	}).join("&"):
+	return peopleToDisplay; 
 }
 
 function displayPerson(person){
