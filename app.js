@@ -4,7 +4,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  findDescendants(people[17]);
+  findDescendants(people[0]);
   console.log(allDescendants);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
@@ -138,7 +138,7 @@ function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
-  return peopleToDisplay; 
+  return peopleToDisplay;
 }
 
 function grabFullNames(people){
@@ -202,9 +202,10 @@ let allDescendants = [];
 let parentsArray = [];
 
 function findDescendants(person) {
+  
   // If arr is empty, return
   if (person.parents.length === 0 && allDescendants.length === 0) {
-    console.log("ORPHAN AF");
+    console.log("No descendants");
   } else if (person.parents.length === 0) {
       return allDescendants;
   }
