@@ -54,11 +54,11 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
+  var firstName = promptFor("What is the person's first name?", chars).toLowerCase();
+  var lastName = promptFor("What is the person's last name?", chars).toLowerCase();
 
   var foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
+    if(person.firstName.toLowerCase() === firstName && person.lastName === lastName.toLowerCase() === lastName){
       return true;
     }
     else{
@@ -66,7 +66,7 @@ function searchByName(people){
     }
   });
   // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0]; 
 }
 
 function serachByTrait(people){
@@ -148,13 +148,28 @@ function grabFullNames(people){
 	return peopleToDisplay; 
 }
 
+function grabFullNamesLineBreaks(people){
+	let peopleToDisplay = people.map(function(person){
+		return person.firstName + " " + person.lastName; 
+	}).join("\n");
+	return peopleToDisplay; 
+}
+
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Eyecolor: " + person.eyecolor + "\n"; 
+  personInfo += "Occupation: " + person.occupation + "\n"; 
+  personInfo += "DOB: " + person.dob + "\n"; 
+  personInfo += "Gender: " + person.gender + "\n"; 
+  personInfo += "Age: " + person.age(person.dob) + "\n"; 
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
+  //Completed the displayperson function!
 }
 
 // function that prompts and validates user input
