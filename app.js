@@ -1,11 +1,12 @@
+'use strict'
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
 
 // app is the function called to start the entire application
 function app(people){
-  findDescendants(people[0]);
-  console.log(allDescendants);
+  findDescendants(people[8]);
+  console.log(children);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
@@ -111,7 +112,7 @@ function serachByTrait(people){
 		}
 	});
 	if (candidates.length == 1){
-		let foundPerson = candidates[0]; 
+		let foundPerson = candidates[0];
 		mainMenu(foundPerson, people); 
 	}
 	else if (candidates.length > 1){
@@ -176,31 +177,27 @@ function findParents(data) {
     }
   }); 
 }
-let allDescendants = [];
-let parentsArray = [];
 
-function findDescendants(person) {
-  
-  // If arr is empty, return
-  if (person.parents.length === 0 && allDescendants.length === 0) {
+
+let allParents = [];
+let parentsArray = [];
+// finds the parents/grandparents
+function findParents(person) {
+  // checks if parents array is empty 
+  if (person.parents.length === 0 && allParents.length === 0) {
     console.log("No descendants");
   } else if (person.parents.length === 0) {
-      return allDescendants;
+    return allParents;
   }
-
-  // Convert the elements from IDs to Objects
-  // [{ person }, { person }]
+  // takes the objects parents array and converts the ID to an object and saves it to a new array
   parentsArray = person.parents.map(el => findFromID(el));
 
-  // Push each object into the allDescendants array
-  // allDescendants = [{ person }, { person }]
+  // loops through new array of objects and pushes it into allDescendants array
   for (let i = 0; i < parentsArray.length; i++) {
-    allDescendants.push(parentsArray[i]);
+    allParents.push(parentsArray[i]);
   }
-
-  // For each person, run this same function on them
+  // checks each element in the current person's parents array to see if they have any parents
   parentsArray.forEach(val => findDescendants(val));
-  // Return the allDescendants array
 }
 
 function findFromID(id) {
@@ -210,3 +207,48 @@ function findFromID(id) {
     }
   }
 }
+
+// take current user's id and check if it exisits in any other objects.parent property
+
+// grab all children of the current user and store it in array
+// loop through array with a recursive call of the function
+
+
+let children = [];
+// set this variable to the found person first
+let foundPersonId = 693243224;
+
+function findDescendants(person) {
+
+  for(let i = 0; i < data.length; i++) {
+    if(data[i].parents.length !== 0) {
+      for(let j = 0; j < data[i].parents.length; j++) {
+        if(foundPersonId === data[i].parents[j]) {
+          children.push(data[i]);
+        }
+      }
+    }
+  }
+
+  // (4)[{ … }, { … }, { … }, { … }]
+  // 0: { id: 822843554, firstName: "Regina", lastName: "Madden", gender: "female", dob: "7/26/1959", … }
+  // 1: { id: 819168108, firstName: "Hana", lastName: "Madden", gender: "female", dob: "10/7/1953", … }
+  // 2: { id: 969837479, firstName: "Eloise", lastName: "Madden", gender: "female", dob: "12/11/1961", … }
+  // 3: { id: 313207561, firstName: "Mattias", lastName: "Madden", gender: "male", dob: "2/19/1966", … }
+
+  for(let k = 0; k < children.length; k++) {
+    foundPersonId = children[k].id;
+    findDescendants(children[k]);
+  }
+
+  return children;
+}
+
+// convert from id to object 
+// function findFromID(id) {
+//   for (let i = 0; i < data.length; i++) {
+//     if (data[i].id === id) {
+//       return data[i];
+//     } 
+//   }
+// }
