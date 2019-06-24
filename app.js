@@ -10,7 +10,7 @@ function app(people){
   switch(searchType){
     case 'yes':
     // TODO: search by name
-    let foundPerson =  searchByName(people);
+    let foundPerson = searchByName(people);
     mainMenu(foundPerson, people); 
     break;
     case 'no':
@@ -105,12 +105,8 @@ function getPersonInfo(personObj) {
 	  personObj += "DOB: " + personObj.dob + "\n"; 
 	  personObj += "Gender: " + personObj.gender + "\n"; 
 	  personObj += "Age: " + personObj.age(person.dob) + "\n"; 
-
-
-  
+ 
 }
-
-
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars).toLowerCase();
@@ -126,10 +122,9 @@ function searchByName(people){
   return results[0]; 
 }
 
-function searchByTrait(people){
-  let results = [];
+function seachByTrait(people){
 	let searchTrait = promptFor("Enter the trait that you would like to look for: 'height', 'weight', 'eye color', 'occupation', or 'gender'.\n Type the option you want or 'quit'", chars).toLowerCase();
-		let trait = "";
+		let trait;
 		switch(searchTrait){
       case "height":
         searchTrait = "height";
@@ -198,39 +193,36 @@ function searchByTrait(people){
       return results;
     }
     
-
-	function findCandidates(trait) {
-    let candidates = people.filter(function (people) {
-      if (traitValue === person[searchTrait]) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    })
-    if (candidates.length == 1) {
-      let foundPerson = candidates[0];
-      mainMenu(foundPerson, people);
-    }
-    else if (candidates.length > 1) {
-      let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\ Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo);
-      switch (keepGoing) {
-        case "yes":
-          candidates = searchByTrait(candidates);
-          return candidates;
-          break;
-        case "no":
-          let foundPerson = searchByName(people);
-          mainMenu(foundPerson, people);
-          break;
-      }
-    }
-    else {
-      alert("Could not find candidate.");
-      return app(people);
-    }
-  }
-  }
+	let candidates = people.filter(function(people){
+		if (traitValue === person[searchTrait]){
+			return true;
+		}
+		else{
+			return false;
+		}
+	})
+	if (candidates.length == 1){
+		let foundPerson = candidates[0];
+		mainMenu(foundPerson, people); 
+	}
+		else if (candidates.length > 1){
+			let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\ Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo); 
+			switch(keepGoing){
+				case "yes":
+					candidates = searchByTrait(candidates); 
+					return candidates; 
+					break; 
+				case "no":
+					let foundPerson = searchByName(people); 
+					mainMenu(foundPerson, people);	
+					break; 
+			}
+		}
+		else{
+			alert("Could not find candidate."); 
+			return app(people); 
+	}
+}
 
 // alerts a list of people
 function displayPeople(people){
@@ -327,6 +319,17 @@ function findParents(person) {
 
 // create array full of current user's children
   // take user id and check if it exists in any of the other objects parents array
+function getAge(dob){
+	let currentDay = new date(); 
+	let brithDate = new birth Day(dob);
+	let age = currentDate.getFullYear() - birthDate.getFullYear(); 
+		if (currentDate < (new Date(brithDate.setFullYear()))){
+	age = age - 1; 
+}
+	return age; 
+}
+ 
+
 
 function findDescendants(person, data) {
   let children = [];
