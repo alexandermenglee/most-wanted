@@ -94,18 +94,23 @@ function getFamily(personObj, people) {
 }
 
 function getPersonInfo(personObj) {
-  return `ID: ${personObj.id} \n`+`
-  		  Name: ${personObj.firstName} ${personObj.lastName}\n`+`
-  		  Gender: ${personObj.gender}\n
-  		  DOB: ${personObj.dob}\n
-  		  Height: ${personObj.height}\n 
-  		  Weight: ${personObj.weight}\n
-  		  Eyecolor: ${personObj.eyecolor}\n
-  		  Occupation: ${personObj.occupation}\n
-  		  Parents: ${personObj.parents}\n
-  		  Current spouse: ${personObj.currentspouse}\n
-  `
+	return personObj
+	  personObj	+= "ID: " + personObj.id + "\n";  
+	  personObj	+= "First Name: " + personObj.firstName + "\n";
+	  personObj += "Last Name: " + personObj.lastName + "\n"; 
+	  personObj += "Weight: " + personObj.weight + "\n";
+	  personObj += "Height: " + personObj.height + "\n";
+	  personObj += "Eyecolor: " + personObj.eyecolor + "\n"; 
+	  personObj += "Occupation: " + personObj.occupation + "\n"; 
+	  personObj += "DOB: " + personObj.dob + "\n"; 
+	  personObj += "Gender: " + personObj.gender + "\n"; 
+	  personObj += "Age: " + personObj.age(person.dob) + "\n"; 
+
+
+  
 }
+
+
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars).toLowerCase();
@@ -169,7 +174,6 @@ function searchByTrait(people){
       console.log(traitKey);
       console.log(traitValue);
       for(let i = 0; i < arr.length; i++) {
-        console.log(arr[i][traitKey]);
         if(arr[i][traitKey] === traitValue) {
           results.push(arr[i]);
         }
