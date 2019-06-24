@@ -10,11 +10,11 @@ function app(people){
   switch(searchType){
     case 'yes':
     // TODO: search by name
-    let foundPerson = searchByName(people);
+    let foundPerson =  searchByName(people);
     mainMenu(foundPerson, people); 
     break;
     case 'no':
-    foundPerson = searchByTrait(people); 
+    searchByTrait(people); 
     // TODO: search by traits
     break;
     default:
@@ -121,71 +121,96 @@ function searchByName(people){
   return results[0]; 
 }
 
-function seachByTrait(people){
+function searchByTrait(people){
+  let results = [];
 	let searchTrait = promptFor("Enter the trait that you would like to look for: 'height', 'weight', 'eye color', 'occupation', or 'gender'.\n Type the option you want or 'quit'", chars).toLowerCase();
-		let trait;
+		let trait = "";
 		switch(searchTrait){
-		case "height":
-		searchTrait = "height";
-		trait = promptFor("What is the person's height?", chars); 
-		break;
-		case "weight":
-		searchTrait = "weight"
-		trait = promptFor("What is the person's weight", chars); 
-		break;
-		case "eyecolor":
-		case "eye color":
-		case "color":
-		searchTrait = "eyecolor"
-		trait = promptFor("What is the person's eye color?", chars);
-		break;
-		case "occupation":
-		case "Job":
-		searchTrait = "occupation"
-		trait = promptFor("What is the person's occupation?", chars); 
-		break;
-		case "gender":
-		case "Sex":
-		searchTrait = "gender"
-		trait = promptFor("What is the person's gender?", maleFemale); 
-		break;
-		case "quit":
-			return; 
-		default:
-		return searchTrait(people);
+      case "height":
+        searchTrait = "height";
+        trait = promptFor("What is the person's height?", chars);
+        results = findPerson(people, searchTrait, trait);
+        break;
+      case "weight":
+        searchTrait = "weight"
+        trait = promptFor("What is the person's weight", chars); 
+        results = findPerson(people, searchTrait, trait);
+        break;
+      case "eyecolor":
+      case "eye color":
+      case "color":
+        searchTrait = "eyeColor"
+        trait = promptFor("What is the person's eye color?", chars);
+        console.log(findPerson(people, searchTrait, trait));
+        results = findPerson(people, searchTrait, trait);
+        break;
+      case "occupation":
+      case "Job":
+        searchTrait = "occupation"
+        trait = promptFor("What is the person's occupation?", chars);
+        console.log(findPerson(people, searchTrait, trait));
+        results = findPerson(people, searchTrait, trait);
+        break;
+      case "gender":
+      case "Sex":
+        searchTrait = "gender"
+        trait = promptFor("What is the person's gender?", chars);
+        results = findPerson(people, searchTrait, trait);
+        break;
+      case "quit":
+        return;
+      default:
+        return searchTrait(people);
+    }
 
+    function findPerson(arr, traitKey, traitValue) {
+      let results = [];
+      console.log(arr);
+      console.log(traitKey);
+      console.log(traitValue);
+      for(let i = 0; i < arr.length; i++) {
+        console.log(arr[i][traitKey]);
+        if(arr[i][traitKey] === traitValue) {
+          results.push(arr[i]);
+        }
+      }
+      console.log(results);
+      return results;
     }
     
-	let candidates = people.filter(function(people){
-		if (traitValue === person[searchTrait]){
-			return true;
-		}
-		else{
-			return false;
-		}
-	})
-	if (candidates.length == 1){
-		let foundPerson = candidates[0];
-		mainMenu(foundPerson, people); 
-	}
-		else if (candidates.length > 1){
-			let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\ Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo); 
-			switch(keepGoing){
-				case "yes":
-					candidates = searchByTrait(candidates); 
-					return candidates; 
-					break; 
-				case "no":
-					let foundPerson = searchByName(people); 
-					mainMenu(foundPerson, people);	
-					break; 
-			}
-		}
-		else{
-			alert("Could not find candidate."); 
-			return app(people); 
-	}
-}
+
+	function findCandidates(trait) {
+    let candidates = people.filter(function (people) {
+      if (traitValue === person[searchTrait]) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    })
+    if (candidates.length == 1) {
+      let foundPerson = candidates[0];
+      mainMenu(foundPerson, people);
+    }
+    else if (candidates.length > 1) {
+      let keepGoing = promptFor("search returned" + candidates.length + "results.\n" + grabFullNamesLineBreaks(candidates) + "n\n\ Serach by another trait?\n Enter 'yes' to search again or 'no' to search by name", yesNo);
+      switch (keepGoing) {
+        case "yes":
+          candidates = searchByTrait(candidates);
+          return candidates;
+          break;
+        case "no":
+          let foundPerson = searchByName(people);
+          mainMenu(foundPerson, people);
+          break;
+      }
+    }
+    else {
+      alert("Could not find candidate.");
+      return app(people);
+    }
+  }
+  }
 
 // alerts a list of people
 function displayPeople(people){
