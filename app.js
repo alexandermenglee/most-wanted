@@ -6,8 +6,6 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  // findDescendants(people[8]);  
-  // console.log(children);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
@@ -47,6 +45,7 @@ function mainMenu(person, people){
     break;
     case "descendants":
     // TODO: get person's descendants
+    console.log(findDescendants(person, people));
     break;
     case "restart":
     app(people); // restart
@@ -79,13 +78,13 @@ function getFamily(personObj, people) {
       // if i > 0, then perform check to prevent duplicates
       // check if the current person element in in the siblings array 
       if(i > 0 && !siblings.includes(people[j])) {
-        for (let k = 0; k < people[j].parents.length; k++) {
-          if (personObj.parents[i] === people[j].parents[k]) {
+        for(let k = 0; k < people[j].parents.length; k++) {
+          if(personObj.parents[i] === people[j].parents[k]) {
             siblings.push(people[j]);
           }
-        }  
+        }
       }
-    }  
+    }
   }
 
   // removes personObj from the siblings array
@@ -93,7 +92,7 @@ function getFamily(personObj, people) {
 
   return siblings;
 }
- 
+
 function getPersonInfo(personObj) {
   return `ID: ${personObj.id} \n`+`
   		  Name: ${personObj.firstName} ${personObj.lastName}\n`+`
@@ -114,7 +113,7 @@ function searchByName(people){
 
   let results = people.filter(el => {
     if(el.firstName.toLowerCase() === firstName && el.lastName.toLowerCase() === lastName) { 
-      return true; 
+      return true;
     }
   });
 
@@ -260,7 +259,7 @@ let parentsArray = [];
 
 // finds the parents/grandparents
 function findParents(person) {
-  // checks if parents array is empty 
+  // checks if parents array is empty
   if (person.parents.length === 0 && allParents.length === 0) {
     console.log("No descendants");
   } else if (person.parents.length === 0) {
@@ -281,29 +280,26 @@ function findParents(person) {
 // if yes, store it in a new array
 // take the new array and call the same function for each element in the array
 
+// create array full of current user's children
+  // take user id and check if it exists in any of the other objects parents array
 
-let children = [];
-// set this variable to the found person first
-let foundPersonId = 693243224;
-let k = -1;
+function findDescendants(person, data) {
+  let children = [];
+  let k = -1;
 
-function findDescendants(person) {
-  for(let i = 0; i < data.length; i++) {
-    if(data[i].parents.length !== 0) {
-      for(let j = 0; j < data[i].parents.length; j++) {
-        if(person.id === data[i].parents[j]) {
+  (function findChildren(person) {
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].parents.length; j++) {
+        if (person.id === data[i].parents[j]) {
           children.push(data[i]);
         }
       }
     }
-  }
-
-  k++;
-
-  for(k; k < children.length; k++) {
-    // current issue: once we call the function; k gets reassigned to 0 making this an infinite loop
-    findDescendants(children[k]);
-  }
+    k++;
+    while (k < children.length) {
+      findChildren(children[k]);
+    }
+  })(person);
 
   return children;
 }
