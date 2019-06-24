@@ -39,7 +39,7 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
-    alert(;
+    alert(getPersonInfo(person));
     break;
     case "family":
     // TODO: get person's family
@@ -58,9 +58,17 @@ function mainMenu(person, people){
 }
 
 function getPersonInfo(personObj) {
-  return "ID: " + personObj.id +
-          "Name: " + personObj.firstName + " " + personObj.lastName +
-          ;
+  return `ID: ${personObj.id} \n`+`
+  		  Name: ${personObj.firstName} ${personObj.lastName}\n`+`
+  		  Gender: ${personObj.gender}\n
+  		  DOB: ${personObj.dob}\n
+  		  Height: ${personObj.height}\n 
+  		  Weight: ${personObj.weight}\n
+  		  Eyecolor: ${personObj.eyecolor}\n
+  		  Occupation: ${personObj.occupation}\n
+  		  Parents: ${personObj.parents}\n
+  		  Current spouse: ${personObj.currentspouse}\n
+  `
 }
 
 function searchByName(people){
@@ -169,7 +177,7 @@ function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Last Name: " + person.lastName + "\n"; 
   personInfo += "Weight: " + person.weight + "\n";
   personInfo += "Height: " + person.height + "\n";
   personInfo += "Eyecolor: " + person.eyecolor + "\n"; 
