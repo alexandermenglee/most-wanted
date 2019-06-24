@@ -6,14 +6,13 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  findDescendants(people[8]);
-  
-  console.log(children);
+  // findDescendants(people[8]);  
+  // console.log(children);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
     // TODO: search by name
-    foundPerson = searchByName(people);
+    let foundPerson = searchByName(people);
     mainMenu(foundPerson, people); 
     break;
     case 'no':
@@ -40,6 +39,7 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    alert(;
     break;
     case "family":
     // TODO: get person's family
@@ -57,20 +57,24 @@ function mainMenu(person, people){
   }
 }
 
+function getPersonInfo(personObj) {
+  return "ID: " + personObj.id +
+          "Name: " + personObj.firstName + " " + personObj.lastName +
+          ;
+}
+
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars).toLowerCase();
-  var lastName = promptFor("What is the person's last name?", chars).toLowerCase();
+  var lastName = promptFor("What is the person's last name?", chars).toLowerCase()
 
-  var foundPerson = people.filter(function(person){
-    if(person.firstName.toLowerCase() === firstName && person.lastName === lastName.toLowerCase() === lastName){
-      return true;
+  let results = people.filter(el => {
+    if(el.firstName.toLowerCase() === firstName && el.lastName.toLowerCase() === lastName) { 
+      return true; 
     }
-    else{
-      return false;
-    }
-  })
+  });
+
   // TODO: find the person using the name they entered
-  return foundPerson[0]; 
+  return results[0]; 
 }
 
 function seachByTrait(people){
@@ -106,7 +110,8 @@ function seachByTrait(people){
 		default:
 		return searchTrait(people);
 
-		}
+    }
+    
 	let candidates = people.filter(function(people){
 		if (traitValue === person[searchTrait]){
 			return true;
@@ -227,14 +232,6 @@ function findParents(person) {
   parentsArray.forEach(val => findDescendants(val));
 }
 
-function findFromID(id) {
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].id === id) {
-      return data[i];
-    }
-  }
-}
-
 // look at everyones parent array and check if it has the current id
 // if yes, store it in a new array
 // take the new array and call the same function for each element in the array
@@ -243,23 +240,25 @@ function findFromID(id) {
 let children = [];
 // set this variable to the found person first
 let foundPersonId = 693243224;
+let k = -1;
 
 function findDescendants(person) {
   for(let i = 0; i < data.length; i++) {
     if(data[i].parents.length !== 0) {
       for(let j = 0; j < data[i].parents.length; j++) {
-        if(foundPersonId === data[i].parents[j]) {
+        if(person.id === data[i].parents[j]) {
           children.push(data[i]);
         }
       }
     }
   }
 
-  // for(let k = 0; k < children.length; k++) {
-  //   foundPersonId = children[k].id;
-  //   // current issue: once we call the function; k gets reassigned to 0 making this an infinite loop
-  //   findDescendants(children[k]);
-  // }
+  k++;
+
+  for(k; k < children.length; k++) {
+    // current issue: once we call the function; k gets reassigned to 0 making this an infinite loop
+    findDescendants(children[k]);
+  }
 
   return children;
 }
