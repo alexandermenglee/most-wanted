@@ -14,7 +14,7 @@ function app(people){
     mainMenu(foundPerson, people); 
     break;
     case 'no':
-    searchByTrait(people); 
+    searchByTrait(people);
     // TODO: search by traits
     break;
     default:
@@ -95,7 +95,7 @@ function getFamily(personObj, people) {
 
 function getPersonInfo(personObj) {
 	return personObj
-	  personObj	+= "ID: " + personObj.id + "\n";  
+	  personObj	+= "ID: " + personObj.id + "\n";
 	  personObj	+= "First Name: " + personObj.firstName + "\n";
 	  personObj += "Last Name: " + personObj.lastName + "\n"; 
 	  personObj += "Weight: " + personObj.weight + "\n";
@@ -135,11 +135,17 @@ function searchByTrait(people){
         searchTrait = "height";
         trait = promptFor("What is the person's height?", chars);
         results = findPerson(people, searchTrait, trait);
+        if (results.length > 1) {
+          app(results);
+        }
         break;
       case "weight":
         searchTrait = "weight"
         trait = promptFor("What is the person's weight", chars); 
         results = findPerson(people, searchTrait, trait);
+        if (results.length > 1) {
+          app(results);
+        }
         break;
       case "eyecolor":
       case "eye color":
@@ -148,6 +154,9 @@ function searchByTrait(people){
         trait = promptFor("What is the person's eye color?", chars);
         console.log(findPerson(people, searchTrait, trait));
         results = findPerson(people, searchTrait, trait);
+        if (results.length > 1) {
+          app(results);
+        }
         break;
       case "occupation":
       case "Job":
@@ -155,12 +164,18 @@ function searchByTrait(people){
         trait = promptFor("What is the person's occupation?", chars);
         console.log(findPerson(people, searchTrait, trait));
         results = findPerson(people, searchTrait, trait);
+        if(results.length > 1) {
+          app(results);
+        }
         break;
       case "gender":
       case "Sex":
         searchTrait = "gender"
         trait = promptFor("What is the person's gender?", chars);
         results = findPerson(people, searchTrait, trait);
+        if (results.length > 1) {
+          app(results);
+        }
         break;
       case "quit":
         return;
@@ -174,7 +189,8 @@ function searchByTrait(people){
       console.log(traitKey);
       console.log(traitValue);
       for(let i = 0; i < arr.length; i++) {
-        if(arr[i][traitKey] === traitValue) {
+
+        if(arr[i][traitKey] == traitValue) {
           results.push(arr[i]);
         }
       }
