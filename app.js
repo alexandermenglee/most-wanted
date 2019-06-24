@@ -39,10 +39,11 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
-    alert(;
+    alert('test');
     break;
     case "family":
     // TODO: get person's family
+    console.log(getFamily(person, people));
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -57,10 +58,40 @@ function mainMenu(person, people){
   }
 }
 
-function getPersonInfo(personObj) {
-  return "ID: " + personObj.id +
-          "Name: " + personObj.firstName + " " + personObj.lastName +
-          ;
+function getFamily(personObj, people) {
+  // initialize siblings array
+  let siblings = [];
+  // if parents array is empty return
+  if(personObj.parents.length === 0) {
+    return `${personObj.spouse}`;
+  }
+  // find siblings
+    // take current person's parent array and loop through it 
+    // loop through dataset
+      // loop through current elements parents array 
+        // check if current element is equal to the current person object's current element
+
+  // looping through personObj parent array
+  for(let i = 0; i < personObj.parents.length; i++) {
+    // looping through people data
+    for(let j = 0; j < people.length; j++) {
+      // looping through parents array of current data element
+      // if i > 0, then perform check to prevent duplicates
+      // check if the current person element in in the siblings array 
+      if(i > 0 && !siblings.includes(people[j])) {
+        for (let k = 0; k < people[j].parents.length; k++) {
+          if (personObj.parents[i] === people[j].parents[k]) {
+            siblings.push(people[j]);
+          }
+        }  
+      }
+    }  
+  }
+
+  // removes personObj from the siblings array
+  siblings.splice(siblings.indexOf(personObj), 1);
+
+  return siblings;
 }
 
 function searchByName(people){
